@@ -1,4 +1,4 @@
-# @soap-cli-common
+# SOAP CLI Common Package
 
 ## Overview
 
