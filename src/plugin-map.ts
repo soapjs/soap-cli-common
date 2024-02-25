@@ -36,7 +36,7 @@ export type WebFrameworkPluginMapItem = {
   };
 };
 
-export type ServicePluginMapItem = {
+export type PlatformPluginMapItem = {
   name: string;
   alias: string;
   plugins: {
@@ -52,7 +52,7 @@ export type PluginMapObject = {
   languages: LanguagePluginMapItem[];
   databases: DatabasePluginMapItem[];
   web_frameworks: WebFrameworkPluginMapItem[];
-  services: ServicePluginMapItem[];
+  platforms: PlatformPluginMapItem[];
 };
 
 export class ConfigTools {
@@ -67,7 +67,7 @@ export class PluginMap {
     public readonly languages: LanguagePluginMapItem[],
     public readonly databases: DatabasePluginMapItem[],
     public readonly web_frameworks: WebFrameworkPluginMapItem[],
-    public readonly services: ServicePluginMapItem[]
+    public readonly platforms: PlatformPluginMapItem[]
   ) {}
 
   getLanguage(alias: string): LanguagePluginMapItem {
@@ -94,22 +94,22 @@ export class PluginMap {
     return this.web_frameworks.findIndex((l) => l.alias === alias) !== -1;
   }
 
-  getService(alias: string): ServicePluginMapItem {
-    return this.services.find((l) => l.alias === alias);
+  getPlatform(alias: string): PlatformPluginMapItem {
+    return this.platforms.find((l) => l.alias === alias);
   }
 
-  hasService(alias: string) {
-    return this.services.findIndex((l) => l.alias === alias) !== -1;
+  hasPlatform(alias: string) {
+    return this.platforms.findIndex((l) => l.alias === alias) !== -1;
   }
 
   toObject(): PluginMapObject {
-    const { version, languages, databases, web_frameworks, services } = this;
+    const { version, languages, databases, web_frameworks, platforms } = this;
     return {
       version,
       languages,
       databases,
       web_frameworks,
-      services,
+      platforms,
     };
   }
 }

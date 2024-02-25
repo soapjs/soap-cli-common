@@ -386,7 +386,7 @@ export type ComponentConfigJson = {
   };
 };
 
-export type ServiceConfigJson = {
+export type PlatformConfigJson = {
   name: string;
   alias: string;
 };
@@ -430,7 +430,7 @@ export type LanguagePluginConfig = {
   architecture: ArchitectureConfigJson;
   databases: DatabaseConfigJson[];
   web_frameworks: WebFrameworkConfigJaon[];
-  services: ServiceConfigJson[];
+  platforms: PlatformConfigJson[];
 };
 
 /**

@@ -15,7 +15,7 @@ The `@soapjs/soap-cli-common` package provides essential classes, types, and hel
 
 This package is intended for use within the `soap-cli` tool and other `soap` packages designed for code generation, such as `@soapjs/soap-cli-typescript`. It serves as a foundational layer, offering reusable components and structures that ensure consistency and efficiency in code generation processes.
 
-Developers can leverage the `PluginMap` class to handle dependencies and configurations for different programming languages, databases, web frameworks, and external services. This centralization simplifies the adaptation and extension of `soap-cli` tools across different environments.
+Developers can leverage the `PluginMap` class to handle dependencies and configurations for different programming languages, databases, web frameworks, and cloud platforms. This centralization simplifies the adaptation and extension of `soap-cli` tools across different environments.
 
 ## Integration
 

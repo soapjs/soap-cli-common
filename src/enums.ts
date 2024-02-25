@@ -1,9 +1,9 @@
-export enum IncludeType {
+export enum ComponentAlias {
   None = "none",
   All = "all",
   DependencyInjector = "dependency_injector",
   Controller = "controller",
-  Source = "collection_source",
+  Collection = "collection",
   Endpoint = "endpoint",
   Entity = "entity",
   Enum = "enum",
