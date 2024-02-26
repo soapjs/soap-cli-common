@@ -6,6 +6,11 @@ The `@soapjs/soap-cli-common` package provides essential classes, types, and hel
 
 ## Features
 
+- **CLI Package Manager**: The CLI Package Manager provides a centralized and streamlined way to manage CLI-related packages across different projects. It automates the tasks of adding, updating, removing, and requiring packages, ensuring consistent and isolated environments for each project. Key Features:
+  - **Centralized Management**: Keep all your CLI tools and libraries in one place, avoiding duplication and version conflicts.
+  - **Dynamic Installation**: Automatically installs necessary CLI packages on-demand, saving time and simplifying setup processes.
+  - **Version Control**: Easily manage and switch between different versions of packages to ensure compatibility and stability across projects.
+  - **Security and Isolation**: Maintains a secure and isolated environment for your CLI tools, separate from global installations, reducing the risk of conflicts and unauthorized access.
 - **Template Models**: Contains generic models for classes, methods, imports, functions, and types, enabling consistent code generation across various projects.
 - **PluginMap Class**: Helps navigate through concrete `soap-cli` plugin dependencies, ensuring seamless integration and management of different language, database, and service plugins.
 - **ConfigTools**: Provides utility functions, such as converting version strings into numerical values, aiding in the management and comparison of different version formats.

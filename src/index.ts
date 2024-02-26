@@ -1,3 +1,4 @@
+export * from "./cli-package-manager";
 export * from "./enums";
 export * from "./template-models";
 export * from "./tools";
