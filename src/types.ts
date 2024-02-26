@@ -442,8 +442,8 @@ export type ProjectDescription = {
   language: string;
   database: string[];
   web_framework?: string;
-  service?: string;
-  source: string;
+  platform?: string;
+  source?: string;
   ioc?: string;
   name?: string;
   author?: string;
