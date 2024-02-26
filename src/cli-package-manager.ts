@@ -1,3 +1,5 @@
+import { existsSync } from "fs";
+
 const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -30,10 +32,11 @@ export class CliPackageManager {
 
   public getPackageVersion(packageName: string) {
     try {
+      const [name] = packageName.split("@");
       const packageJsonPath = path.join(
         this.globalPackagesPath,
         "node_modules",
-        packageName,
+        name,
         "package.json"
       );
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
@@ -63,14 +66,30 @@ export class CliPackageManager {
 
   public requirePackage(packageName: string) {
     try {
+      const [name] = packageName.split("@");
       const packagePath = path.join(
         this.globalPackagesPath,
         "node_modules",
-        packageName
+        name
       );
       return require(packagePath);
     } catch (error) {
       console.error(`Could not load package ${packageName}: ${error}`);
+      return null;
+    }
+  }
+
+  public hasPackage(packageName: string) {
+    try {
+      const [name] = packageName.split("@");
+      const packagePath = path.join(
+        this.globalPackagesPath,
+        "node_modules",
+        name
+      );
+      return existsSync(packagePath);
+    } catch (error) {
+      console.error(`Could not check package ${packageName}: ${error}`);
       return null;
     }
   }
