@@ -444,7 +444,7 @@ export type ProjectDescription = {
   web_framework?: string;
   service?: string;
   source: string;
-  dependency_injection?: string;
+  ioc?: string;
   name?: string;
   author?: string;
   description?: string;

@@ -1,4 +1,4 @@
-export type LanguageDI = {
+export type IoC = {
   name: string;
   alias: string;
   packages?: string[];
@@ -11,7 +11,7 @@ export type LanguagePluginMapItem = {
   packages?: string[];
   cli_plugin?: string;
   cli_plugin_config_url?: string;
-  dependency_injection: LanguageDI[];
+  ioc: IoC[];
 };
 
 export type DatabasePluginMapItem = {
