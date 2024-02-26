@@ -323,7 +323,8 @@ export type ApiObject = {
   models: ComponentData[];
   entities: ComponentData[];
   mappers: ComponentData[];
-  sources: ComponentData[];
+  services: ComponentData[];
+  collections: ComponentData[];
   routes: ComponentData[];
   route_ios: ComponentData[];
   use_cases: ComponentData[];
