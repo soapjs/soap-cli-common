@@ -14,6 +14,7 @@ export class GenericTemplateModel {
   constructor(
     public name: string,
     public dflt: string,
-    public inheritance: InheritanceTemplateModel
+    public inheritance: InheritanceTemplateModel,
+    public template = "generic"
   ) {}
 }

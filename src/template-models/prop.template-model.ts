@@ -22,7 +22,7 @@ export class PropTemplateModel {
       is_readonly,
       is_static,
       value,
-      template
+      template || "prop"
     );
   }
 

@@ -107,12 +107,11 @@ export class FileTemplateModel {
           });
 
           if (newFn.body && newFn.body !== fn.body.content) {
-            fn.body = new BodyTemplateModel(
-              fn.body.template,
-              fn.body.instruction,
-              `${fn.body.content}\n${newFn.body}`,
-              {}
-            );
+            fn.body = BodyTemplateModel.create({
+              template: fn.body.template || "body",
+              instruction: fn.body.instruction,
+              content: `${fn.body.content}\n${newFn.body}`,
+            });
           }
         } else {
           functions.push(FunctionTemplateModel.create(newFn));
@@ -181,12 +180,11 @@ export class FileTemplateModel {
           const c = cls.methods.find((mth) => mth.name === item.name);
           if (c) {
             if (item.body && item.body !== c.body.content) {
-              c.body = new BodyTemplateModel(
-                c.body.template,
-                c.body.instruction,
-                `${c.body.content}\n${item.body}`,
-                {}
-              );
+              c.body = BodyTemplateModel.create({
+                template: c.body.template || "body",
+                instruction: c.body.instruction,
+                content: `${c.body.content}\n${item.body}`,
+              });
             }
           } else {
             cls.methods.push(MethodTemplateModel.create(item));

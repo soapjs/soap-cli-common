@@ -17,6 +17,6 @@ export class TestCaseTemplateModel {
     public is_async: boolean,
     public methods: MethodSchemaObject[],
     public props: PropSchemaObject[],
-    public template?: string
+    public template = "test_case"
   ) {}
 }

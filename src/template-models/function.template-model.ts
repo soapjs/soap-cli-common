@@ -29,11 +29,11 @@ export class FunctionTemplateModel {
       Array.isArray(generics)
         ? generics.map((g) => GenericTemplateModel.create(g))
         : [],
-      template
+      template || "function"
     );
   }
 
-  constructor(
+  protected constructor(
     public exp: ExportSchemaObject,
     public name: string,
     public return_type: string,

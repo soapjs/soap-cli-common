@@ -31,7 +31,7 @@ export class MethodTemplateModel {
       Array.isArray(generics)
         ? generics.map((g) => GenericTemplateModel.create(g))
         : [],
-      template
+      template || "method"
     );
   }
 

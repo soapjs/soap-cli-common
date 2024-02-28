@@ -27,6 +27,7 @@ export class TypeTemplateModel {
     public exp: ExportSchemaObject,
     public props: PropTemplateModel[],
     public generics: GenericTemplateModel[],
-    public imports: ImportTemplateModel[]
+    public imports: ImportTemplateModel[],
+    public template = "type"
   ) {}
 }

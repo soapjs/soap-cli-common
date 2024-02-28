@@ -22,6 +22,6 @@ export class TestSuiteTemplateModel {
     public name: string,
     public tests: TestCaseTemplateModel[],
     public imports: ImportTemplateModel[],
-    public template: string
+    public template = "test_suite"
   ) {}
 }

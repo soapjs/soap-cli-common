@@ -1,4 +1,4 @@
-import { basename, dirname, join, relative, resolve } from "path";
+import { dirname, join, resolve } from "path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync } from "fs";
 
 export const ensurePathExists = (path: string) => {

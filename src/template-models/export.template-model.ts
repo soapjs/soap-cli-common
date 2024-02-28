@@ -17,6 +17,7 @@ export class ExportTemplateModel {
     public use_wildcard: boolean,
     public path: string,
     public list: string[],
-    public alias: string
+    public alias: string,
+    public template = "export"
   ) {}
 }

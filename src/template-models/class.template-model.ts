@@ -44,11 +44,11 @@ export class ClassTemplateModel {
       Array.isArray(imports)
         ? imports.map((i) => ImportTemplateModel.create(i))
         : [],
-      template
+      template || "class"
     );
   }
 
-  constructor(
+  protected constructor(
     public isAbstract: boolean,
     public name: string,
     public exp: ExportSchemaObject,

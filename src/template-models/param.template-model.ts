@@ -13,7 +13,7 @@ export class ParamTemplateModel {
       is_optional,
       is_readonly,
       value,
-      template
+      template || "param"
     );
   }
 

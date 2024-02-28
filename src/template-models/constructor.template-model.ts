@@ -13,11 +13,11 @@ export class ConstructorTemplateModel {
         : [],
       BodyTemplateModel.create(body),
       supr ? ConstructorTemplateModel.create(supr) : null,
-      template
+      template || "constructor"
     );
   }
 
-  constructor(
+  protected constructor(
     public access: string,
     public params: ParamTemplateModel[],
     public body: BodyTemplateModel,

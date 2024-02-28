@@ -1,6 +1,7 @@
 import { FileOutput } from "./file-output";
 import { PluginMap } from "./plugin-map";
 import { Result } from "./result";
+import { ClassData } from "./schemas";
 import { FileTemplateModel } from "./template-models";
 import { Texts } from "./texts";
 
@@ -295,6 +296,249 @@ export type FunctionJson = {
 };
 
 /**
+ * COMPONENTS
+ */
+
+export type EntityJson = ClassJson & {
+  endpoint?: string;
+  has_model?: boolean;
+};
+export type EntityData = EntityJson;
+export type NewEntityJson = ApiJson;
+
+export type HandlerJson = {
+  name: string;
+  input?: any;
+  output?: any;
+};
+
+export type ControllerJson = ClassJson & {
+  name: string;
+  endpoint?: string;
+  handlers?: HandlerJson[];
+};
+export type ControllerData = ClassJson & {
+  name: string;
+  endpoint?: string;
+  handlers?: {
+    name: string;
+    input?: string;
+    output?: string;
+    prompt?: string;
+  }[];
+};
+
+export type MapperJson = ClassJson & {
+  id?: string;
+  name: string;
+  storages: string[];
+  endpoint?: string;
+  model?: string;
+  entity?: string;
+};
+
+export type MapperData = ClassData & {
+  id?: string;
+  name: string;
+  storage: string;
+  endpoint?: string;
+};
+
+export type NewMapperJson = {
+  mappers: MapperJson[];
+  entities?: EntityJson[];
+  models?: ModelJson[];
+};
+
+export type ModelJson = {
+  id?: string;
+  name: string;
+  endpoint?: string;
+  types: string[];
+  props?: (PropJson | string)[];
+  generics?: GenericJson[];
+  alias?: any;
+};
+
+export type ModelData = {
+  id?: string;
+  name: string;
+  endpoint?: string;
+  type: string;
+  props?: (PropJson | string)[];
+  generics?: GenericJson[];
+  alias?: any;
+};
+
+export type NewModelJson = {
+  models: ModelJson[];
+};
+
+export type DataContextCollectionJson = {
+  name: string;
+  impl?: boolean;
+  table?: string;
+};
+
+export type DataContextJson = {
+  type: string;
+  model?: string;
+  collection?: DataContextCollectionJson;
+  mapper?: string;
+};
+
+export type RepositoryJson = ClassJson & {
+  name: string;
+  entity: string;
+  impl?: boolean;
+  endpoint?: string;
+  contexts?: (DataContextJson | string)[];
+};
+
+export type RepositoryData = ClassData & {
+  endpoint?: string;
+  is_custom?: boolean;
+};
+
+export type NewRepositoryJson = {
+  repositories: RepositoryJson[];
+  models?: ModelJson[];
+  entities?: EntityJson[];
+  sources?: CollectionJson[];
+  mappers?: MapperJson[];
+};
+
+
+
+
+
+export type RouteRequestJson = {
+  method: string;
+  path: string; // includes query_params and path_params
+  headers?: { [key: string]: any };
+  body?: any;
+  validate?: boolean;
+  auth?: string;
+};
+
+export type RouteResponseJson = {
+  [code: number]: any;
+};
+
+export type RouteHandlerJson = {
+  controller: string; // name/id
+  name: string; // name
+  input?: string; // model/entity name
+  output?: string; // entity name
+};
+
+export type RouteJson = ClassJson & {
+  id?: string;
+  name: string;
+  controller: string;
+  handler: string;
+  endpoint?: string;
+  request: RouteRequestJson;
+  response?: string | RouteResponseJson;
+};
+
+export type RouteData = RouteJson;
+
+export type RouteModelJson = {
+  method: string;
+  name: string;
+  endpoint?: string;
+  types: string[];
+  props?: (PropJson | string)[];
+  generics?: GenericJson[];
+};
+
+export type RouteModelData = {
+  method: string;
+  name: string;
+  endpoint?: string;
+  type: string;
+  alias?: any;
+  props?: (PropJson | string)[];
+  generics?: GenericJson[];
+};
+
+export type CollectionJson = ClassJson & {
+  id?: string;
+  name: string;
+  storages: string[];
+  table?: string;
+  endpoint?: string;
+  model?: string;
+};
+
+export type CollectionData = ClassData & {
+  name: string;
+  table: string;
+  storage: string;
+  endpoint?: string;
+  is_custom?: boolean;
+};
+
+export type NewCollectionJson = {
+  collections: CollectionJson[];
+};
+export type ToolsetJson = ClassJson & {
+  layer: string;
+  endpoint?: string;
+};
+
+export type ToolsetData = ToolsetJson;
+
+
+
+export type NewToolsetJson = ApiJson;
+
+export type UseCaseJson = ClassJson & {
+  name: string;
+  input: (string | ParamJson)[];
+  output?: string;
+  endpoint?: string;
+};
+
+export type UseCaseData = UseCaseJson;
+
+
+
+export type NewUseCaseJson = {
+  use_cases: UseCaseJson[];
+};
+
+export type ServiceJson = ClassJson & {
+  endpoint?: string;
+};
+
+export type ServiceData = ServiceJson;
+
+
+
+export type NewServiceJson = ApiJson;
+
+
+
+
+
+
+
+export type ApiJson = {
+  models?: ModelJson[];
+  entities?: EntityJson[];
+  mappers?: MapperJson[];
+  collections?: CollectionJson[];
+  services?: ServiceJson[];
+  use_cases?: UseCaseJson[];
+  repositories?: RepositoryJson[];
+  routes?: RouteJson[];
+  controllers?: ControllerJson[];
+  toolsets?: ToolsetJson[];
+};
+
+/**
  *
  */
 
@@ -330,7 +574,6 @@ export type ApiObject = {
   use_cases: ComponentData[];
   repositories: ComponentData[];
   repository_impls: ComponentData[];
-  repository_factories: ComponentData[];
   toolsets: ComponentData[];
   test_suites: ComponentData[];
   launcher: ComponentData;

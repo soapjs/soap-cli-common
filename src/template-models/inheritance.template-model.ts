@@ -12,5 +12,9 @@ export class InheritanceTemplateModel {
     );
   }
 
-  constructor(public name: string, public generics: GenericTemplateModel[]) {}
+  constructor(
+    public name: string,
+    public generics: GenericTemplateModel[],
+    public template = "inheritance"
+  ) {}
 }

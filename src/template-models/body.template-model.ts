@@ -32,11 +32,11 @@ export class BodyTemplateModel {
       options = body.options;
     }
 
-    return new BodyTemplateModel(template, instruction, content, options);
+    return new BodyTemplateModel(template || 'body', instruction, content, options);
   }
 
-  constructor(
-    public readonly template: string,
+  protected constructor(
+    public readonly template,
     public readonly instruction: string,
     public readonly content: any,
     public readonly options: any

@@ -10,6 +10,7 @@ export class ImportTemplateModel {
     public dflt: string,
     public path: string,
     public list: string[],
-    public alias: string
+    public alias: string,
+    public template = "import"
   ) {}
 }

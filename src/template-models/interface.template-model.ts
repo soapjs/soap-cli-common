@@ -10,8 +10,7 @@ import { PropTemplateModel } from "./prop.template-model";
 
 export class InterfaceTemplateModel {
   static create(data: InterfaceSchemaObject) {
-    const { exp, inheritance, props, methods, generics, name, imports } =
-      data;
+    const { exp, inheritance, props, methods, generics, name, imports } = data;
 
     return new InterfaceTemplateModel(
       name,
@@ -35,6 +34,7 @@ export class InterfaceTemplateModel {
     public props: PropTemplateModel[],
     public methods: MethodTemplateModel[],
     public generics: GenericSchemaObject[],
-    public imports: ImportTemplateModel[]
+    public imports: ImportTemplateModel[],
+    public template = "interface"
   ) {}
 }
