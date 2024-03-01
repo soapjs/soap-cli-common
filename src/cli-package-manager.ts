@@ -66,11 +66,10 @@ export class CliPackageManager {
 
   public requirePackage(packageName: string) {
     try {
-      const [name] = packageName.split("@");
       const packagePath = path.join(
         this.globalPackagesPath,
         "node_modules",
-        name
+        packageName
       );
       return require(packagePath);
     } catch (error) {

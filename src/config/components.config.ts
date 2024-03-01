@@ -94,17 +94,13 @@ export class ComponentsConfig {
       ComponentConfig.create(rootPath, "model", data.model),
       ComponentConfig.create(rootPath, "repository", data.repository),
       ComponentConfig.create(rootPath, "repository_impl", data.repository_impl),
-      ComponentConfig.create(
-        rootPath,
-        "repository_factory",
-        data.repository_factory
-      ),
       ComponentConfig.create(rootPath, "use_case", data.use_case),
       ComponentConfig.create(rootPath, "route", data.route),
       ComponentConfig.create(rootPath, "route_model", data.route_model),
       ComponentConfig.create(rootPath, "route_io", data.route_io),
       ComponentConfig.create(rootPath, "toolset", data.toolset),
       ComponentConfig.create(rootPath, "service", data.service),
+      ComponentConfig.create(rootPath, "service_impl", data.service_impl),
       //
       ComponentConfig.create(
         rootPath,
@@ -128,8 +124,8 @@ export class ComponentsConfig {
       ),
       ComponentConfig.create(
         rootPath,
-        "repository_factory_unit_tests",
-        data.repository_factory_unit_tests
+        "service_impl_unit_tests",
+        data.service_impl_unit_tests
       ),
       ComponentConfig.create(
         rootPath,
@@ -148,8 +144,8 @@ export class ComponentsConfig {
       ),
       ComponentConfig.create(
         rootPath,
-        "service_unit_tests",
-        data.service_unit_tests
+        "entity_unit_tests",
+        data.entity_unit_tests
       ),
       ComponentConfig.create(rootPath, "router", data.router),
       ComponentConfig.create(rootPath, "container", data.container),
@@ -166,23 +162,23 @@ export class ComponentsConfig {
     public readonly model: ComponentConfig,
     public readonly repository: ComponentConfig,
     public readonly repository_impl: ComponentConfig,
-    public readonly repository_factory: ComponentConfig,
     public readonly use_case: ComponentConfig,
     public readonly route: ComponentConfig,
     public readonly route_model: ComponentConfig,
     public readonly route_io: ComponentConfig,
     public readonly toolset: ComponentConfig,
     public readonly service: ComponentConfig,
+    public readonly service_impl: ComponentConfig,
     //
     public readonly controller_unit_tests: ComponentConfig,
     public readonly mapper_unit_tests: ComponentConfig,
     public readonly collection_unit_tests: ComponentConfig,
     public readonly repository_impl_unit_tests: ComponentConfig,
-    public readonly repository_factory_unit_tests: ComponentConfig,
+    public readonly service_impl_unit_tests: ComponentConfig,
     public readonly use_case_unit_tests: ComponentConfig,
     public readonly route_io_unit_tests: ComponentConfig,
     public readonly toolset_unit_tests: ComponentConfig,
-    public readonly service_unit_tests: ComponentConfig,
+    public readonly entity_unit_tests: ComponentConfig,
     //
     public readonly router: ComponentConfig,
     public readonly container: ComponentConfig,

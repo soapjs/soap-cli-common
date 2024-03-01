@@ -14,3 +14,4 @@ export type ServiceElement = ElementWithImports &
   ComponentElement;
 
 export type Service = Component<ServiceElement>;
+export type ServiceImpl = Component<ServiceElement>;

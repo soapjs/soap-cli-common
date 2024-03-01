@@ -10,9 +10,9 @@ export type ComponentLabel =
   | "mapper"
   | "repository"
   | "repository_impl"
-  | "repository_factory"
   | "collection"
   | "service"
+  | "service_impl"
   | "route"
   | "route_model"
   | "router"
@@ -97,15 +97,6 @@ export abstract class TypeInfo {
       return RepositoryImplType.create(name, ref);
     }
 
-    const repositoryFactoryMatch = data.match(
-      /^RepositoryFactory\s*<\s*(\w+)\s*>/i
-    );
-    if (repositoryFactoryMatch) {
-      const ref = repositoryFactoryMatch[1];
-      const name = config.components.repository_factory.generateName(ref);
-      return RepositoryFactoryType.create(name, ref);
-    }
-
     const collectionMatch = data.match(
       /^Collection\s*<\s*(\w+),?\s*(\w+)?\s*>/i
     );
@@ -119,6 +110,13 @@ export abstract class TypeInfo {
     const serviceMatch = data.match(/^Service\s*<\s*(\w+)\s*>/i);
     if (serviceMatch) {
       const ref = serviceMatch[1];
+      const name = config.components.service.generateName(ref);
+      return ServiceType.create(name, ref);
+    }
+
+    const serviceImplMatch = data.match(/^ServiceImpl\s*<\s*(\w+)\s*>/i);
+    if (serviceImplMatch) {
+      const ref = serviceImplMatch[1];
       const name = config.components.service.generateName(ref);
       return ServiceType.create(name, ref);
     }
@@ -680,22 +678,6 @@ export class RepositoryType {
   }
 }
 
-export class ServiceType {
-  public readonly isService = true;
-  public readonly isComponentType = true;
-  public readonly component = "service";
-
-  private constructor(
-    public readonly name: string,
-    public readonly ref: string,
-    public readonly tag: string
-  ) {}
-
-  static create(name: string, ref: string) {
-    return new ServiceType(name, ref, `Service<${name}>`);
-  }
-}
-
 export class RepositoryImplType {
   public readonly isRepositoryImpl = true;
   public readonly isComponentType = true;
@@ -712,10 +694,10 @@ export class RepositoryImplType {
   }
 }
 
-export class RepositoryFactoryType {
-  public readonly isRepositoryFactory = true;
+export class ServiceType {
+  public readonly isService = true;
   public readonly isComponentType = true;
-  public readonly component = "repository_factory";
+  public readonly component = "service";
 
   private constructor(
     public readonly name: string,
@@ -724,7 +706,23 @@ export class RepositoryFactoryType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new RepositoryFactoryType(name, ref, `RepositoryFactory<${name}>`);
+    return new ServiceType(name, ref, `Service<${name}>`);
+  }
+}
+
+export class ServiceImplType {
+  public readonly isServiceImpl = true;
+  public readonly isComponentType = true;
+  public readonly component = "service_impl";
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string
+  ) {}
+
+  static create(name: string, ref: string) {
+    return new ServiceImplType(name, ref, `ServiceImpl<${name}>`);
   }
 }
 

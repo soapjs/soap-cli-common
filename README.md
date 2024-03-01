@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `../types` package provides essential classes, types, and helpers utilized across the `soapjs cli` ecosystem and other `soapjs` packages. It includes generic template models for generating code components like classes, methods, imports, functions, and types. The package aims to standardize and facilitate the creation of code across different languages and frameworks.
+Package contains essential components, classes, types, and functions required for the operation of the CLI and code generation. This package is utilized across all CLI-related packages, providing a core set of utilities and shared resources to streamline the development and maintenance of CLI tools and projects.
 
 ## Features
 
@@ -12,6 +12,8 @@ The `../types` package provides essential classes, types, and helpers utilized a
   - **Version Control**: Easily manage and switch between different versions of packages to ensure compatibility and stability across projects.
   - **Security and Isolation**: Maintains a secure and isolated environment for your CLI tools, separate from global installations, reducing the risk of conflicts and unauthorized access.
 - **Template Models**: Contains generic models for classes, methods, imports, functions, and types, enabling consistent code generation across various projects.
+- **Component Types**: Contains fundamental types of architecture components: Entity, Model, Repository, Use Case, Controller etc.
+- **Schemas**: Contains generic schemas for classes, methods, imports, functions, and types, enabling consistent code generation across various projects.
 - **PluginMap Class**: Helps navigate through concrete `soap-cli` plugin dependencies, ensuring seamless integration and management of different language, database, and service plugins.
 - **ConfigTools**: Provides utility functions, such as converting version strings into numerical values, aiding in the management and comparison of different version formats.
 - **Result and Failure Handling**: Includes components like `Result` and `Failure` to standardize method outputs, catering to both success and failure scenarios.

@@ -137,7 +137,7 @@ export class SchemaTools {
   }
 
   static executeMeta(item: any, data: InstructionData, config: Config) {
-    if (item["meta"]) {
+    if (typeof item["meta"] === "string") {
       return ConfigInstructionParser.executeInstructions(
         item["meta"],
         data,
