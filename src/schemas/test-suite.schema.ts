@@ -26,6 +26,7 @@ export type TestSuiteData = {
   endpoint?: string;
   template?: string;
   id?: string;
+  [key: string]: any;
 };
 
 export class TestSuiteSchema {
