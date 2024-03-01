@@ -1,13 +1,25 @@
 {
   "name": "@soapjs/soap-cli-common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fundamental classes, types, tools templates for building consistent and efficient code generation across the SoapJS CLI ecosystem",
   "homepage": "https://docs.soapjs.com",
   "repository": "https://github.com/soapjs/soap-cli-common",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "MIT",
-  "author": "Radoslaw Kamysz",
+  "author": "Radoslaw Kamysz <radoslaw.kamysz@gmail.com>",
+  "keywords": [
+    "clean",
+    "architecture",
+    "clean architecture",
+    "api design",
+    "framework",
+    "code generation",
+    "framework",
+    "typescript",
+    "microservices",
+    "backend"
+  ],
   "scripts": {
     "test:unit": "jest --config=jest.config.unit.js",
     "clean": "rm -rf ./build",

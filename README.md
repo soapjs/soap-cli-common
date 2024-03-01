@@ -26,7 +26,7 @@ Developers can leverage the `PluginMap` class to handle dependencies and configu
 
 ## Integration
 
-To integrate `../types` into your project, you can import the required classes and utilities directly into your `soap-cli` plugins or code generation scripts. This approach ensures that all soap-based tools maintain a coherent structure and adhere to the same standards for error handling, configuration, and plugin management.
+To integrate `@soapjs/soap-cli-common` into your project, you can import the required classes and utilities directly into your `soap-cli` plugins or code generation scripts. This approach ensures that all soap-based tools maintain a coherent structure and adhere to the same standards for error handling, configuration, and plugin management.
 
 For specific implementation details and examples, refer to the documentation provided within the package or the broader `soap` documentation.
 
@@ -54,4 +54,4 @@ For any questions, collaboration interests, or support needs, you can contact us
 
 ## License
 
-../types is [MIT licensed](./LICENSE).
+@soapjs/soap-cli-common is [MIT licensed](./LICENSE).
