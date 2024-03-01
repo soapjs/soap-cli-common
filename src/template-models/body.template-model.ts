@@ -15,7 +15,7 @@ export class BodyTemplateModel {
     let options;
 
     if (!body) {
-      return new BodyTemplateModel(template, instruction, "", {});
+      return new BodyTemplateModel("body", instruction, "", {});
     }
 
     if (typeof body === "string") {
@@ -32,11 +32,16 @@ export class BodyTemplateModel {
       options = body.options;
     }
 
-    return new BodyTemplateModel(template || 'body', instruction, content, options);
+    return new BodyTemplateModel(
+      template || "body",
+      instruction,
+      content,
+      options
+    );
   }
 
   protected constructor(
-    public readonly template,
+    public readonly template: string,
     public readonly instruction: string,
     public readonly content: any,
     public readonly options: any

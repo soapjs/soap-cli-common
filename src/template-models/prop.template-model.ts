@@ -34,6 +34,6 @@ export class PropTemplateModel {
     public is_readonly: boolean,
     public is_static: boolean,
     public value: any,
-    public template: any
+    public template = "prop"
   ) {}
 }

@@ -24,6 +24,6 @@ export class ParamTemplateModel {
     public is_optional: boolean,
     public is_readonly: boolean,
     public value: any,
-    public template: any
+    public template = "param"
   ) {}
 }
