@@ -1,4 +1,5 @@
 import { existsSync } from "fs";
+import { workerLog } from "./tools";
 
 const { exec } = require("child_process");
 const fs = require("fs");
@@ -73,6 +74,7 @@ export class CliPackageManager {
       );
       return require(packagePath);
     } catch (error) {
+      workerLog(error);
       console.error(`Could not load package ${packageName}: ${error}`);
       return null;
     }

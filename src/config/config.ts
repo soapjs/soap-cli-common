@@ -24,7 +24,7 @@ export class Config {
     const databases = pluginConfig.databases.map(DatabaseConfig.create);
     const language = LanguageConfig.create(pluginConfig.language);
     const components = ComponentsConfig.create(
-      pluginConfig.language.source_path,
+      pluginConfig.language.source_dir,
       pluginConfig.architecture.components
     );
 

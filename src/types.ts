@@ -1,4 +1,4 @@
-import { FileOutput } from "./file-output";
+import { FileDescriptor } from "./file-output";
 import { PluginMap } from "./plugin-map";
 import { Result } from "./result";
 import { ClassData } from "./schemas";
@@ -408,10 +408,6 @@ export type NewRepositoryJson = {
   mappers?: MapperJson[];
 };
 
-
-
-
-
 export type RouteRequestJson = {
   method: string;
   path: string; // includes query_params and path_params
@@ -490,8 +486,6 @@ export type ToolsetJson = ClassJson & {
 
 export type ToolsetData = ToolsetJson;
 
-
-
 export type NewToolsetJson = ApiJson;
 
 export type UseCaseJson = ClassJson & {
@@ -503,8 +497,6 @@ export type UseCaseJson = ClassJson & {
 
 export type UseCaseData = UseCaseJson;
 
-
-
 export type NewUseCaseJson = {
   use_cases: UseCaseJson[];
 };
@@ -515,15 +507,7 @@ export type ServiceJson = ClassJson & {
 
 export type ServiceData = ServiceJson;
 
-
-
 export type NewServiceJson = ApiJson;
-
-
-
-
-
-
 
 export type ApiJson = {
   models?: ModelJson[];
@@ -635,7 +619,22 @@ export type PlatformConfigJson = {
   alias: string;
 };
 
+export type MessagingConfigJson = {
+  name: string;
+  alias: string;
+};
+
 export type WebFrameworkConfigJaon = {
+  name: string;
+  alias: string;
+};
+
+export type TestFrameworkConfigJaon = {
+  name: string;
+  alias: string;
+};
+
+export type AuthFrameworkConfigJaon = {
   name: string;
   alias: string;
 };
@@ -654,18 +653,20 @@ export type DatabaseConfigJson = {
   mappings?: DatabaseMappingJson[];
 };
 
+export type PresetConfigJson = {
+  [key: string]: ComponentConfigJson;
+};
+
 export type ArchitectureConfigJson = {
   version: string;
-  components: {
-    [key: string]: ComponentConfigJson;
-  };
+  components: PresetConfigJson;
 };
 
 export type LanguageConfigJson = {
   name: string;
   alias: string;
   types: string[];
-  source_path: string;
+  source_dir: string;
 };
 
 export type LanguagePluginConfig = {
@@ -675,6 +676,9 @@ export type LanguagePluginConfig = {
   databases: DatabaseConfigJson[];
   web_frameworks: WebFrameworkConfigJaon[];
   platforms: PlatformConfigJson[];
+  messaging: MessagingConfigJson[];
+  test_frameworks: WebFrameworkConfigJaon[];
+  auth_frameworks: AuthFrameworkConfigJaon[];
 };
 
 /**
@@ -685,8 +689,12 @@ export type ProjectDescription = {
   language: string;
   database: string[];
   web_framework?: string;
+  test_framework?: string;
+  auth_framework?: string;
+  messaging?: string;
+  preset?: string;
   platform?: string;
-  source?: string;
+  source_dir?: string;
   ioc?: string;
   name?: string;
   author?: string;
@@ -705,7 +713,7 @@ export interface TemplateModelStrategy {
 }
 
 export interface FileOutputStrategy {
-  apply(models: FileTemplateModel[]): Promise<Result<FileOutput[]>>;
+  apply(models: FileTemplateModel[]): Promise<Result<FileDescriptor[]>>;
 }
 
 export interface ProjectBuildStrategy {
@@ -716,23 +724,32 @@ export interface ProjectInitStrategy {
   apply(content: ProjectDescription): Promise<Result>;
 }
 
-export type LanguageStrategyProvider = {
-  createTemplateModelStrategy: (...args: unknown[]) => TemplateModelStrategy;
-  createFileOutputStrategy: (...args: unknown[]) => FileOutputStrategy;
-  createProjectBuildStrategy: (
-    texts: Texts,
-    pluginMap: PluginMap,
-    ...args: unknown[]
-  ) => ProjectBuildStrategy;
-  createProjectInitStrategy: (
-    texts: Texts,
-    pluginMap: PluginMap,
-    ...args: unknown[]
-  ) => ProjectInitStrategy;
-};
-
 export abstract class Strategy<T = void> {
   constructor(...args: unknown[]) {}
 
   public abstract apply(...args: unknown[]): T;
 }
+
+export type LanguagePluginFacade = {
+  createTemplateModels: (
+    obj: ApiObject,
+    project: ProjectDescription,
+    ...args: unknown[]
+  ) => Result<FileTemplateModel[]>;
+  createFileDescriptors: (
+    models: FileTemplateModel[],
+    ...args: unknown[]
+  ) => Promise<Result<FileDescriptor[]>>;
+  buildProject: (
+    texts: Texts,
+    pluginMap: PluginMap,
+    content: ProjectDescription,
+    ...args: unknown[]
+  ) => Promise<Result>;
+  initProject: (
+    texts: Texts,
+    pluginMap: PluginMap,
+    content: ProjectDescription,
+    ...args: unknown[]
+  ) => Promise<Result>;
+};
