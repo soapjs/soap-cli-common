@@ -1,9 +1,10 @@
-import { LanguageConfig } from "./language.config";
-import { ComponentsConfig } from "./components.config";
-import { ComponentsConfigTools } from "../tools/components-config.tools";
+import { CodeConfig } from "./code.config";
+import { PresetsConfig } from "./presets.config";
+import { ComponentsConfigTools } from "./tools/components-config.tools";
 import { DatabaseConfig } from "./database.config";
 import { ProjectConfig } from "./project.config";
-import { LanguagePluginConfig } from "../types";
+import { ConfigJson, PresetConfigJson } from "./config.types";
+import { PluginConfig } from "./plugin.config";
 
 export type GeneratedPath = {
   path: string;
@@ -13,22 +14,20 @@ export type GeneratedPath = {
 
 export type ReservedType = {
   name: string;
-  category: "FrameworkDefault" | "DatabaseType" | "Primitive";
+  category: string; // "FrameworkDefault" | "DatabaseType" | "Primitive"
 };
 
 export class Config {
-  public static create(
-    pluginConfig: LanguagePluginConfig,
-    projectConfig: ProjectConfig
-  ): Config {
-    const databases = pluginConfig.databases.map(DatabaseConfig.create);
-    const language = LanguageConfig.create(pluginConfig.language);
-    const components = ComponentsConfig.create(
-      pluginConfig.language.source_dir,
-      pluginConfig.architecture.components
+  public static create(json: ConfigJson): Config {
+    const project = ProjectConfig.create(json.project);
+    const databases = json.databases.map(DatabaseConfig.create);
+    const code = CodeConfig.create(json.code);
+    const components = PresetsConfig.create(
+      project.source_dir || code.defaultSourceDir,
+      json.presets
     );
 
-    return new Config(projectConfig, databases, language, components);
+    return new Config(project, databases, code, components);
   }
 
   private __allReservedTypes: ReservedType[] = [];
@@ -36,8 +35,8 @@ export class Config {
   constructor(
     public readonly project: ProjectConfig,
     public readonly databases: DatabaseConfig[],
-    public readonly code: LanguageConfig,
-    public readonly components: ComponentsConfig
+    public readonly code: CodeConfig,
+    public readonly presets: PresetsConfig
   ) {
     if (Array.isArray(databases)) {
       databases.forEach((db) => {
@@ -61,9 +60,9 @@ export class Config {
       });
     }
 
-    Object.keys(components).forEach((name) => {
-      if (components[name]?.defaults) {
-        ComponentsConfigTools.listTypes(components[name].defaults).forEach(
+    Object.keys(presets).forEach((name) => {
+      if (presets[name]?.defaults) {
+        ComponentsConfigTools.listTypes(presets[name].defaults).forEach(
           (name) => {
             this.__allReservedTypes.push({
               name,

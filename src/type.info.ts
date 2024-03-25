@@ -1,6 +1,50 @@
 import { Config } from "./config";
 import { BasicType } from "./enums";
 
+export type TypeInfoObject = {
+  name: string;
+  ref: string;
+  tag: string;
+  isArray?: boolean;
+  isSet?: boolean;
+  isMap?: boolean;
+  isIterable?: boolean;
+  isPrimitive?: boolean;
+  isUnknownType?: boolean;
+  isDatabaseType?: boolean;
+  isFrameworkDefaultType?: boolean;
+  isMultiType?: boolean;
+  isComponentType?: boolean;
+  isInterface?: boolean;
+  isClass?: boolean;
+  isEntity?: boolean;
+  isToolset?: boolean;
+  isDataContext?: boolean;
+  isModel?: boolean;
+  isSource?: boolean;
+  isRepository?: boolean;
+  isRepositoryImpl?: boolean;
+  isRepositoryFactory?: boolean;
+  isUseCase?: boolean;
+  isController?: boolean;
+  isMapper?: boolean;
+  isRoute?: boolean;
+  isRouteIO?: boolean;
+  isRouteModel?: boolean;
+  isRouteSchema?: boolean;
+  isContainer?: boolean;
+  isLauncher?: boolean;
+  isRouter?: boolean;
+  isConfig?: boolean;
+  isService?: boolean;
+  isConfigInstructionType?: boolean;
+  isTestSuite?: boolean;
+  isResult?: boolean;
+  isVoid?: boolean;
+  type?: string;
+  component?: string;
+};
+
 export type ComponentLabel =
   | "model"
   | "toolset"
@@ -15,9 +59,11 @@ export type ComponentLabel =
   | "service_impl"
   | "route"
   | "route_model"
+  | "route_schema"
   | "router"
   | "launcher"
   | "container"
+  | "config"
   | "route_io";
 
 export abstract class TypeInfo {
@@ -34,17 +80,40 @@ export abstract class TypeInfo {
 
     const typeLC = data.toLowerCase();
 
+    const resultMatch = data.match(/^Result\s*<\s*([a-zA-Z0-9<>_,\[\]]+)\s*>/i);
+    if (resultMatch) {
+      return ResultType.create(TypeInfo.create(resultMatch[1], config));
+    }
+
+    const responseMatch = data.match(
+      /^RouteResponse\s*<\s*([a-zA-Z0-9<>_,\[\]]+)\s*>/i
+    );
+    if (responseMatch) {
+      const name = responseMatch[1];
+      return RouteResponseType.create(name);
+    }
+
+    const requestMatch = data.match(
+      /^RouteRequest\s*<\s*(\w+)?\s*,?\s*(\w+)?\s*,?\s*(\w+)?>/i
+    );
+    if (requestMatch) {
+      const body = requestMatch[1];
+      const params = requestMatch[2];
+      const query = requestMatch[3];
+      return RouteRequestType.create(body, params, query);
+    }
+
     const entityMatch = data.match(/^Entity\s*<\s*(\w+)\s*>/i);
     if (entityMatch) {
       const ref = entityMatch[1];
-      const name = config.components.entity.generateName(ref);
+      const name = config.presets.entity.generateName(ref);
       return EntityType.create(name, ref);
     }
 
     const toolsetMatch = data.match(/^Toolset\s*<\s*(\w+)\s*>/i);
     if (toolsetMatch) {
       const ref = toolsetMatch[1];
-      const name = config.components.toolset.generateName(ref);
+      const name = config.presets.toolset.generateName(ref);
       return ToolsetType.create(name, ref);
     }
 
@@ -52,7 +121,7 @@ export abstract class TypeInfo {
     if (modelMatch) {
       const ref = modelMatch[1];
       const type = modelMatch[2]?.toLowerCase() || "json";
-      const name = config.components.model.generateName(ref, { type });
+      const name = config.presets.model.generateName(ref, { type });
 
       return ModelType.create(name, ref, type);
     }
@@ -70,21 +139,21 @@ export abstract class TypeInfo {
     const useCaseMatch = data.match(/^UseCase\s*<\s*(\w+)\s*>/i);
     if (useCaseMatch) {
       const ref = useCaseMatch[1];
-      const name = config.components.use_case.generateName(ref);
+      const name = config.presets.use_case.generateName(ref);
       return UseCaseType.create(name, ref);
     }
 
     const controllerMatch = data.match(/^Controller\s*<\s*(\w+)\s*>/i);
     if (controllerMatch) {
       const ref = controllerMatch[1];
-      const name = config.components.controller.generateName(ref);
+      const name = config.presets.controller.generateName(ref);
       return ControllerType.create(name, ref);
     }
 
     const repositoryMatch = data.match(/^Repository\s*<\s*(\w+)\s*>/i);
     if (repositoryMatch) {
       const ref = repositoryMatch[1];
-      const name = config.components.repository.generateName(ref);
+      const name = config.presets.repository.generateName(ref);
       return RepositoryType.create(name, ref);
     }
 
@@ -93,7 +162,7 @@ export abstract class TypeInfo {
     );
     if (repositoryImplMatch) {
       const ref = repositoryImplMatch[1];
-      const name = config.components.repository_impl.generateName(ref);
+      const name = config.presets.repository_impl.generateName(ref);
       return RepositoryImplType.create(name, ref);
     }
 
@@ -103,21 +172,21 @@ export abstract class TypeInfo {
     if (collectionMatch) {
       const ref = collectionMatch[1];
       const type = collectionMatch[2]?.toLowerCase();
-      const name = config.components.collection.generateName(ref, { type });
+      const name = config.presets.collection.generateName(ref, { type });
       return CollectionType.create(name, ref, type);
     }
 
     const serviceMatch = data.match(/^Service\s*<\s*(\w+)\s*>/i);
     if (serviceMatch) {
       const ref = serviceMatch[1];
-      const name = config.components.service.generateName(ref);
+      const name = config.presets.service.generateName(ref);
       return ServiceType.create(name, ref);
     }
 
     const serviceImplMatch = data.match(/^ServiceImpl\s*<\s*(\w+)\s*>/i);
     if (serviceImplMatch) {
       const ref = serviceImplMatch[1];
-      const name = config.components.service.generateName(ref);
+      const name = config.presets.service.generateName(ref);
       return ServiceType.create(name, ref);
     }
 
@@ -125,7 +194,7 @@ export abstract class TypeInfo {
     if (mapperMatch) {
       const ref = mapperMatch[1];
       const type = mapperMatch[2]?.toLowerCase();
-      const name = config.components.mapper.generateName(ref, { type });
+      const name = config.presets.mapper.generateName(ref, { type });
       return MapperType.create(name, ref, type);
     }
 
@@ -133,7 +202,7 @@ export abstract class TypeInfo {
     if (routeMatch) {
       const ref = routeMatch[1];
       const method = routeMatch[2]?.toLowerCase() || "get";
-      const name = config.components.route.generateName(ref, {
+      const name = config.presets.route.generateName(ref, {
         method,
       });
       return RouteType.create(name, ref, method);
@@ -146,7 +215,7 @@ export abstract class TypeInfo {
       const ref = routeModelMatch[1];
       const method = routeModelMatch[2]?.toLowerCase();
       const type = routeModelMatch[3]?.toLowerCase();
-      const name = config.components.route_model.generateName(ref, {
+      const name = config.presets.route_model.generateName(ref, {
         type,
         method,
       });
@@ -157,7 +226,7 @@ export abstract class TypeInfo {
     if (routeIOMatch) {
       const ref = routeIOMatch[1];
       const method = routeModelMatch[2]?.toLowerCase();
-      const name = config.components.route_io.generateName(ref, { method });
+      const name = config.presets.route_io.generateName(ref, { method });
       return RouteIOType.create(name, ref, method);
     }
 
@@ -165,13 +234,15 @@ export abstract class TypeInfo {
     if (multiMatch) {
       const chain = new Set<TypeInfo | "|" | "&">();
       const match = routeIOMatch[1].match(/[a-zA-Z0-9<>, ]+|[|&]/g);
-      match.forEach((str) => {
-        if (str !== "|" && str !== "&") {
-          chain.add(TypeInfo.create(str.trim(), config));
-        } else {
-          chain.add(str);
-        }
-      });
+      if (Array.isArray(match)) {
+        match.forEach((str) => {
+          if (str !== "|" && str !== "&") {
+            chain.add(TypeInfo.create(str.trim(), config));
+          } else {
+            chain.add(str);
+          }
+        });
+      }
       const ch = [...chain];
       return MultiType.create(ch);
     }
@@ -218,10 +289,14 @@ export abstract class TypeInfo {
     }
 
     return ModelType.create(
-      config.components.model.generateName(data, { type: "json" }),
+      config.presets.model.generateName(data, { type: "json" }),
       data,
       "json"
     );
+  }
+
+  public static isResult(type: TypeInfo): type is ResultType {
+    return type.isResult;
   }
 
   public static isArray(type: TypeInfo): type is ArrayType {
@@ -313,14 +388,19 @@ export abstract class TypeInfo {
     public readonly isUseCase?: boolean,
     public readonly isController?: boolean,
     public readonly isMapper?: boolean,
+    public readonly isResult?: boolean,
     public readonly isRoute?: boolean,
     public readonly isRouteIO?: boolean,
     public readonly isRouteModel?: boolean,
+    public readonly isRouteSchema?: boolean,
     public readonly isConfigInstructionType?: boolean,
     public readonly isTestSuite?: boolean,
     public readonly isRouter?: boolean,
     public readonly isContainer?: boolean,
     public readonly isLauncher?: boolean,
+    public readonly isConfig?: boolean,
+    public readonly isService?: boolean,
+    public readonly isVoid?: boolean,
     public readonly type?: string,
     public readonly component?: string,
     public readonly chain?: (TypeInfo | "|" | "&")[]
@@ -396,6 +476,7 @@ export class NullType {
 }
 
 export class VoidType {
+  public readonly isVoid = true;
   public readonly isPrimitive = true;
 
   static create() {
@@ -493,7 +574,7 @@ export class ModelType {
   ) {}
 
   static create(name: string, ref: string, type: string) {
-    return new ModelType(name, ref, `Model<${name},${type}>`, type);
+    return new ModelType(name, ref, `Model<${ref},${type}>`, type);
   }
 }
 
@@ -509,13 +590,14 @@ export class ToolsetType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new ToolsetType(name, ref, `Toolset<${name}>`);
+    return new ToolsetType(name, ref, `Toolset<${ref}>`);
   }
 }
 
 export class TestSuiteType {
   public readonly isTestSuite = true;
   public readonly isComponentType = true;
+  public readonly component = "test_suite";
 
   private constructor(
     public readonly name: string,
@@ -525,7 +607,7 @@ export class TestSuiteType {
   ) {}
 
   static create(name: string, ref: string, type: string) {
-    return new TestSuiteType(name, ref, `TestSuite<${name},${type}>`, type);
+    return new TestSuiteType(name, ref, `TestSuite<${ref},${type}>`, type);
   }
 }
 
@@ -541,7 +623,7 @@ export class EntityType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new EntityType(name, ref, `Entity<${name}>`);
+    return new EntityType(name, ref, `Entity<${ref}>`);
   }
 }
 
@@ -558,7 +640,7 @@ export class RouteType {
   ) {}
 
   static create(name: string, ref: string, method: string) {
-    return new RouteType(name, ref, `Route<${name},${method}>`, method);
+    return new RouteType(name, ref, `Route<${ref},${method}>`, method);
   }
 }
 
@@ -575,7 +657,23 @@ export class RouteIOType {
   ) {}
 
   static create(name: string, ref: string, method: string) {
-    return new RouteIOType(name, ref, `RouteIO<${name}, ${method}>`, method);
+    return new RouteIOType(name, ref, `RouteIO<${ref}, ${method}>`, method);
+  }
+}
+
+export class RouteSchemaType {
+  public readonly isRouteSchema = true;
+  public readonly isComponentType = true;
+  public readonly component = "route_schema";
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string
+  ) {}
+
+  static create(name: string, ref: string) {
+    return new RouteSchemaType(name, ref, `RouteSchema<${ref}>`);
   }
 }
 
@@ -625,7 +723,7 @@ export class CollectionType {
   ) {}
 
   static create(name: string, ref: string, type: string) {
-    return new CollectionType(name, ref, `Collection<${name},${type}>`, type);
+    return new CollectionType(name, ref, `Collection<${ref},${type}>`, type);
   }
 }
 
@@ -642,7 +740,90 @@ export class MapperType {
   ) {}
 
   static create(name: string, ref: string, type: string) {
-    return new MapperType(name, ref, `Mapper<${name},${type}>`, type);
+    return new MapperType(name, ref, `Mapper<${ref},${type}>`, type);
+  }
+}
+
+export class ResultType {
+  public readonly isResult = true;
+  public readonly isFrameworkDefaultType = true;
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string,
+    public readonly itemType: TypeInfo
+  ) {}
+
+  static create(itemType: TypeInfo) {
+    return new ResultType(
+      `Result<${itemType.name}>`,
+      `Result`,
+      `Result<${itemType.tag}>`,
+      itemType
+    );
+  }
+}
+
+export class RouteResponseType {
+  public readonly isFrameworkDefaultType = true;
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string
+  ) {}
+
+  static create(body?: string) {
+    let name = `RouteResponse`;
+    if (body) {
+      name = `RouteResponse<${body}>`;
+    }
+
+    return new RouteResponseType(name, `RouteResponse`, name);
+  }
+}
+
+export class RouteRequestType {
+  public readonly isFrameworkDefaultType = true;
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string,
+    public readonly body: string,
+    public readonly params: string,
+    public readonly query: string
+  ) {}
+
+  static create(body?: string, params?: string, query?: string) {
+    let result = [];
+    let foundNotNull = false;
+    const arr = [body, params, query];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (arr[i]) {
+        foundNotNull = true;
+        result.unshift(arr[i]);
+      } else if (!arr[i] && foundNotNull) {
+        result.unshift("undefined");
+      } else if (foundNotNull) {
+        result.unshift(arr[i]);
+      }
+    }
+
+    let name = `RouteRequest`;
+    if (result.length > 0) {
+      name = `RouteRequest<${result.join(", ")}>`;
+    }
+
+    return new RouteRequestType(
+      name,
+      "RouteRequest",
+      name,
+      body,
+      params,
+      query
+    );
   }
 }
 
@@ -658,7 +839,7 @@ export class UseCaseType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new UseCaseType(name, ref, `UseCase<${name}>`);
+    return new UseCaseType(name, ref, `UseCase<${ref}>`);
   }
 }
 
@@ -674,7 +855,7 @@ export class RepositoryType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new RepositoryType(name, ref, `Repository<${name}>`);
+    return new RepositoryType(name, ref, `Repository<${ref}>`);
   }
 }
 
@@ -690,7 +871,7 @@ export class RepositoryImplType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new RepositoryImplType(name, ref, `RepositoryImpl<${name}>`);
+    return new RepositoryImplType(name, ref, `RepositoryImpl<${ref}>`);
   }
 }
 
@@ -706,7 +887,7 @@ export class ServiceType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new ServiceType(name, ref, `Service<${name}>`);
+    return new ServiceType(name, ref, `Service<${ref}>`);
   }
 }
 
@@ -722,7 +903,7 @@ export class ServiceImplType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new ServiceImplType(name, ref, `ServiceImpl<${name}>`);
+    return new ServiceImplType(name, ref, `ServiceImpl<${ref}>`);
   }
 }
 
@@ -738,7 +919,7 @@ export class ControllerType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new ControllerType(name, ref, `Controller<${name}>`);
+    return new ControllerType(name, ref, `Controller<${ref}>`);
   }
 }
 
@@ -754,7 +935,7 @@ export class RouterType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new RouterType(name, ref, `Router<${name}>`);
+    return new RouterType(name, ref, `Router<${ref}>`);
   }
 }
 
@@ -770,7 +951,23 @@ export class LauncherType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new LauncherType(name, ref, `Launcher<${name}>`);
+    return new LauncherType(name, ref, `Launcher<${ref}>`);
+  }
+}
+
+export class ConfigType {
+  public readonly isConfig = true;
+  public readonly isComponentType = true;
+  public readonly component = "config";
+
+  private constructor(
+    public readonly name: string,
+    public readonly ref: string,
+    public readonly tag: string
+  ) {}
+
+  static create(name: string, ref: string) {
+    return new ConfigType(name, ref, `Config<${ref}>`);
   }
 }
 
@@ -786,7 +983,7 @@ export class ContainerType {
   ) {}
 
   static create(name: string, ref: string) {
-    return new ContainerType(name, ref, `Container<${name}>`);
+    return new ContainerType(name, ref, `Container<${ref}>`);
   }
 }
 
@@ -795,7 +992,7 @@ export class ArrayType {
     return new ArrayType(
       `Array<${itemType.name}>`,
       `array`,
-      `Array<${itemType.name}>`,
+      `Array<${itemType.tag}>`,
       itemType
     );
   }
@@ -817,7 +1014,7 @@ export class SetType {
     return new SetType(
       `Set<${itemType.name}>`,
       `set`,
-      `Set<${itemType.name}>`,
+      `Set<${itemType.tag}>`,
       itemType
     );
   }
@@ -839,7 +1036,7 @@ export class MapType {
     return new MapType(
       `Map<${keyType.name},${valueType.name}>`,
       `map`,
-      `Map<${keyType.name},${valueType.name}>`,
+      `Map<${keyType.tag},${valueType.tag}>`,
       keyType,
       valueType
     );

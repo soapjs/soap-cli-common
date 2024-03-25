@@ -1,9 +1,4 @@
-import { DatabaseConfigJson } from "../types";
-
-export type DatabaseMapping = {
-  dbType: string;
-  codeType: string;
-};
+import { DatabaseConfigJson, DatabaseMapping } from "./config.types";
 
 export class DatabaseConfig {
   public static create(data: DatabaseConfigJson): DatabaseConfig {

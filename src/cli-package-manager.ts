@@ -65,7 +65,7 @@ export class CliPackageManager {
     });
   }
 
-  public requirePackage(packageName: string) {
+  public requirePackage<T = any>(packageName: string): T {
     try {
       const packagePath = path.join(
         this.globalPackagesPath,
