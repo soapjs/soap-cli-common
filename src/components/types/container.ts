@@ -58,7 +58,7 @@ export class Container extends Component<ContainerElement, ContainerAddons> {
     public readonly addons: ContainerAddons,
     public readonly element: ContainerElement
   ) {
-    super(id, type, "", path, writeMethod, addons, element);
+    super(id, type, "", path, writeMethod, 0, addons, element);
   }
 
   addBindings(bindings: ContainerAddons) {

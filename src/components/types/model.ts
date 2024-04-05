@@ -6,6 +6,7 @@ import {
   PropData,
   GenericData,
   TypeJson,
+  AdditionalJson,
 } from "../../schemas/classes";
 import {
   ElementWithImports,
@@ -15,7 +16,7 @@ import {
   Component,
 } from "./component";
 
-export type ModelJson = {
+export type ModelJson = AdditionalJson & {
   id?: string;
   name: string;
   endpoint?: string;

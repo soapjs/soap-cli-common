@@ -14,6 +14,7 @@ import {
 } from "../types";
 import { SchemaTools } from "../tools/schema.tools";
 import { DataProvider } from "../../data-provider";
+import { WriteMethod } from "../../enums";
 
 export class InterfaceDataParser {
   private static parseJson(
@@ -35,6 +36,8 @@ export class InterfaceDataParser {
 
     return {
       name,
+      rank: data.rank || 0,
+      write_method: data.write_method || WriteMethod.Write,
       exp: data.exp ? ExportDataParser.parse(data.exp).data : null,
       methods: Array.isArray(data.methods)
         ? data.methods.reduce((acc, method) => {
@@ -133,6 +136,8 @@ export class InterfaceDataParser {
       imports: [],
       methods: [],
       props: [],
+      write_method: WriteMethod.Write,
+      rank: 0,
     };
   }
 

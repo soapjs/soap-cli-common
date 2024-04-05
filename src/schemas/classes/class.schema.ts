@@ -17,7 +17,6 @@ export class ClassDataParser {
   static parse(
     data: ClassJson,
     config: Config,
-    writeMethod: WriteMethod,
     references?: { [key: string]: unknown; dependencies: any[] },
     meta?: any
   ): DataProvider<ClassData> {
@@ -41,7 +40,8 @@ export class ClassDataParser {
       name,
       is_abstract,
       ctor,
-      write_method: writeMethod,
+      write_method: data.write_method || WriteMethod.Write,
+      rank: data.rank || 0,
       exp: data.exp ? ExportDataParser.parse(data.exp).data : null,
       methods: Array.isArray(data.methods)
         ? data.methods.reduce((acc, method) => {
@@ -133,7 +133,6 @@ export class ClassDataParser {
 export class ClassSchema {
   public static create<T>(
     cls: DataProvider<ClassData> | ClassJson,
-    write_method: WriteMethod,
     config: Config,
     references?: { [key: string]: unknown; dependencies: any[] }
   ): T {
@@ -146,7 +145,7 @@ export class ClassSchema {
     if (cls instanceof DataProvider) {
       data = cls.data;
     } else {
-      data = ClassDataParser.parse(cls, config, write_method, references).data;
+      data = ClassDataParser.parse(cls, config, references).data;
     }
 
     let exp: ExportSchema;

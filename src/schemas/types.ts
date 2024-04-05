@@ -6,6 +6,12 @@ import { PropSchema } from "./classes/prop.schema";
 
 export type AdditionalData = {
   write_method: WriteMethod;
+  rank: number;
+};
+
+export type AdditionalJson = {
+  write_method?: WriteMethod;
+  rank?: number;
 };
 
 export type ElementSchemaObject = ConfigJsonAddons & {
@@ -25,7 +31,7 @@ export type ElementSchemaObject = ConfigJsonAddons & {
   alias?: any;
 };
 
-export type ClassJson = {
+export type ClassJson = AdditionalJson & {
   is_abstract?: boolean;
   exp?: string | boolean | ExportJson;
   ctor?: string | ConstructorJson;
@@ -226,7 +232,7 @@ export type InheritanceData = {
   meta?: any;
 };
 
-export type InterfaceJson = {
+export type InterfaceJson = AdditionalJson & {
   exp?: string | boolean | ExportJson;
   inheritance?: (string | InheritanceJson)[];
   props?: (PropJson | string)[];
@@ -249,7 +255,7 @@ export type InterfaceSchemaObject = ConfigJsonAddons & {
   name: string;
 };
 
-export type InterfaceData = {
+export type InterfaceData = AdditionalData & {
   exp?: ExportData;
   inheritance?: InheritanceData[];
   props: PropData[];
@@ -433,7 +439,7 @@ export type TypeSchemaObject = ConfigJsonAddons & {
   imports?: ImportSchemaObject[];
 };
 
-export type TypeData = {
+export type TypeData = AdditionalData & {
   id?: string;
   exp?: ExportData;
   name?: string;
@@ -454,7 +460,7 @@ export type TypeObject = ConfigJsonAddons & {
   imports?: ImportSchemaObject[];
 };
 
-export type TypeJson = {
+export type TypeJson = AdditionalJson & {
   id?: string;
   exp?: string | boolean | ExportJson;
   name?: string;

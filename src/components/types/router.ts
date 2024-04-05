@@ -35,7 +35,7 @@ export class Router extends Component<RouterElement, RouterAddons> {
     public readonly addons: RouterAddons,
     public readonly element: RouterElement
   ) {
-    super(id, type, "", path, writeMethod, addons, element);
+    super(id, type, "", path, writeMethod, 0, addons, element);
   }
 
   addRoutes(routes: Route[], controllers: Controller[], config: Config) {

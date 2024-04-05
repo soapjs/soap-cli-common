@@ -12,6 +12,8 @@ export class ComponentJsonFactory {
         props: data?.props,
         generics: data?.generics,
         alias: data?.alias,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isEntity) {
       json = <T>{
@@ -28,6 +30,8 @@ export class ComponentJsonFactory {
         id: data?.id,
         endpoint: data?.endpoint,
         has_model: data?.has_model,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isCollection) {
       json = <T>{
@@ -46,6 +50,8 @@ export class ComponentJsonFactory {
         methods: data?.methods,
         generics: data?.generics,
         imports: data?.imports,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isController) {
       json = <T>{
@@ -62,6 +68,8 @@ export class ComponentJsonFactory {
         id: data?.id,
         endpoint: data?.endpoint,
         handlers: data?.handlers,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isMapper) {
       json = <T>{
@@ -80,6 +88,8 @@ export class ComponentJsonFactory {
         endpoint: data?.endpoint,
         model: data?.model,
         entity: data?.entity,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isRepository) {
       json = <T>{
@@ -98,6 +108,8 @@ export class ComponentJsonFactory {
         impl: data?.impl,
         endpoint: data?.endpoint,
         contexts: data?.contexts,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isRoute) {
       json = <T>{
@@ -117,6 +129,8 @@ export class ComponentJsonFactory {
         endpoint: data?.endpoint,
         request: data?.request,
         response: data?.response,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isRouteModel) {
       json = <T>{
@@ -134,6 +148,8 @@ export class ComponentJsonFactory {
         method: data?.method,
         endpoint: data?.endpoint,
         types: data?.types,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isService) {
       json = <T>{
@@ -149,6 +165,8 @@ export class ComponentJsonFactory {
         name: data?.name || type.ref,
         id: data?.id,
         endpoint: data?.endpoint,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     } else if (type.isToolset) {
       json = <T>{
@@ -165,6 +183,8 @@ export class ComponentJsonFactory {
         id: data?.id,
         endpoint: data?.endpoint,
         layer: data?.layer,
+        write_method: data?.write_method,
+        rank: data?.rank,
       };
     }
 

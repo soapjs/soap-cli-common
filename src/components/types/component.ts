@@ -52,6 +52,7 @@ export type ComponentData<
   type: TypeInfoObject;
   path: string;
   write_method: string;
+  rank: number;
   addons: ElementAddons;
   element: Element;
   dependencies: Dependency[];
@@ -134,6 +135,7 @@ export class Component<
       endpoint?: string;
       path: string;
       writeMethod: WriteMethod;
+      rank: number;
       addons?: ElementAddons;
       element: Element;
       dependencies?: Component[];
@@ -145,6 +147,7 @@ export class Component<
       endpoint,
       path,
       writeMethod,
+      rank,
       addons,
       element,
       dependencies,
@@ -155,6 +158,7 @@ export class Component<
       endpoint,
       path,
       writeMethod,
+      rank,
       addons,
       element
     );
@@ -176,6 +180,7 @@ export class Component<
     public readonly endpoint: string,
     public readonly path: string,
     public readonly writeMethod: WriteMethod,
+    public readonly rank: number,
     public readonly addons: ElementAddons,
     public readonly element: Element
   ) {}
@@ -274,6 +279,7 @@ export class Component<
       addons,
       writeMethod: write_method,
       dependencies,
+      rank,
     } = this;
 
     return SchemaTools.removeNullUndefined({
@@ -282,6 +288,7 @@ export class Component<
       type,
       path,
       write_method,
+      rank,
       dependencies,
       element: element?.toObject(),
       addons,

@@ -14,6 +14,7 @@ import {
 } from "../types";
 import { SchemaTools } from "../tools/schema.tools";
 import { DataProvider } from "../../data-provider";
+import { WriteMethod } from "../../enums";
 
 export const TYPE_REGEX =
   /([a-zA-Z0-9_]+)\s*(<([a-zA-Z0-9_, \<\>\[\]\(\)]+)>)?(\s*=\s*(.+))?/;
@@ -64,6 +65,8 @@ export class TypeDataParser {
       name: data.name,
       alias,
       type,
+      write_method: data.write_method || WriteMethod.Write,
+      rank: data.rank || 0,
       exp: data.exp ? ExportDataParser.parse(data.exp).data : null,
       props: Array.isArray(data.props)
         ? data.props.reduce((acc, prop) => {
@@ -157,6 +160,8 @@ export class TypeDataParser {
       props,
       generics,
       meta,
+      write_method: WriteMethod.Write,
+      rank: 0,
     };
   }
 
