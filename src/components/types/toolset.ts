@@ -7,6 +7,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type ToolsetJson = ClassJson & {
@@ -17,6 +18,7 @@ export type ToolsetJson = ClassJson & {
 export type NewToolsetJson = ApiJson;
 
 export type ToolsetElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

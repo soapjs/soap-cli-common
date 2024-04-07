@@ -7,6 +7,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 import { EntityJson } from "./entity";
 import { Mapper, MapperJson } from "./mapper";
@@ -42,6 +43,7 @@ export type NewRepositoryJson = {
 };
 
 export type RepositoryElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

@@ -5,6 +5,7 @@ import {
   ComponentElement,
   ElementWithGenerics,
   ElementWithImports,
+  ElementWithInterfaces,
   ElementWithMethods,
   ElementWithProps,
 } from "./component";
@@ -20,6 +21,7 @@ export type EntityAddons = {
   hasModel: boolean;
 };
 export type EntityElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

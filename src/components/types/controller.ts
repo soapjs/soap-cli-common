@@ -5,6 +5,7 @@ import {
   ElementWithMethods,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type ControllerJson = ClassJson & {
@@ -13,6 +14,7 @@ export type ControllerJson = ClassJson & {
 };
 
 export type ControllerElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ComponentElement;

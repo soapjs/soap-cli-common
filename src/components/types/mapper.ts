@@ -6,6 +6,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 import { EntityJson } from "./entity";
 import { ModelJson } from "./model";
@@ -30,6 +31,7 @@ export type MapperAddons = {
 };
 
 export type MapperElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

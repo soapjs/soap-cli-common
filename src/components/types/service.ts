@@ -7,6 +7,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type ServiceJson = ClassJson & {
@@ -16,6 +17,7 @@ export type ServiceJson = ClassJson & {
 export type NewServiceJson = ApiJson;
 
 export type ServiceElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

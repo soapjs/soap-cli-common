@@ -6,6 +6,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type CollectionJson = ClassJson & {
@@ -28,6 +29,7 @@ export type CollectionAddons = {
 };
 
 export type CollectionElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

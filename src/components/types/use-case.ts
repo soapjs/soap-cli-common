@@ -12,6 +12,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type UseCaseJson = ClassJson & {
@@ -25,6 +26,7 @@ export type NewUseCaseJson = {
 };
 
 export type UseCaseElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &

@@ -691,14 +691,12 @@ export class RouteModelType {
   ) {}
 
   static create(name: string, ref: string, method: string, type: string) {
-    const desc = [name];
+    const desc = [ref];
     if (method) {
       desc.push(method);
     }
     if (type) {
       desc.push(type);
-    } else {
-      desc.push("json");
     }
     return new RouteModelType(
       name,

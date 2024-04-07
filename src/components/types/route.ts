@@ -11,6 +11,7 @@ import {
   ElementWithGenerics,
   ComponentElement,
   Component,
+  ElementWithInterfaces,
 } from "./component";
 
 export type CorsJson = {
@@ -99,6 +100,7 @@ export type RouteModelData = {
 };
 
 export type RouteElement = ElementWithImports &
+  ElementWithInterfaces &
   ElementWithProps &
   ElementWithMethods &
   ElementWithGenerics &
